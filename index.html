@@ -1,165 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Happy Birthday Betuu</title>
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    background: black;
-    overflow: hidden;
-    font-family: 'Poppins', sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
+body{
+  background:black;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.text-box {
-    position: absolute;
-    left: 5%;
-    top: 30%;
-    width: 38%;
-    color: white;
-    font-size: 17px;
-    line-height: 1.7;
-    opacity: 0;
+/* MAIN LAYOUT */
+.container{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 8%;
 }
 
-.cursor {
-    display: inline-block;
-    width: 2px;
-    height: 18px;
-    background: white;
-    animation: blink 1s infinite;
+/* TEXT SECTION */
+.text{
+  width:45%;
+  color:white;
+  font-size:14px;
+  line-height:1.6;
 }
 
-@keyframes blink {
-    50% { opacity: 0; }
+/* TREE SECTION */
+.tree-wrapper{
+  width:55%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+/* TREE TRUNK */
+.trunk{
+  width:10px;
+  height:65%;
+  background:#ff9acb;
+  border-radius:10px;
+  position:absolute;
+  bottom:5%;
+}
+
+/* HEARTS */
+.heart{
+  position:absolute;
+  font-size:16px;
+  animation: float 6s linear infinite;
+  opacity:0.9;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(0);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-40px);
+    opacity:0.8;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="canvas"></canvas>
+<div class="container">
 
-<div class="text-box" id="textBox">
-    <span id="typed"></span><span class="cursor"></span>
+  <!-- TEXT -->
+  <div class="text">
+    Hey you 💖 Happy Birthday Betuu 💋🎉 May God<br>
+    bless you And give u many happiness 💕 Just<br>
+    saying... you're pretty awesome 💖 Sending good<br>
+    vibes ✨ Hope u have a beautiful day 🌸
+  </div>
+
+  <!-- TREE -->
+  <div class="tree-wrapper">
+    <div class="trunk"></div>
+  </div>
+
 </div>
 
 <script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const tree = document.querySelector(".tree-wrapper");
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resize();
-window.onresize = resize;
+const colors = ["💗","💖","❤️","💕","💞"];
 
-// ---- BALL ----
-let ballY = -40;
-let ballX = canvas.width / 2;
-const ground = canvas.height * 0.78;
+for(let i=0;i<160;i++){
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = colors[Math.floor(Math.random()*colors.length)];
 
-// ---- TREE ----
-let grow = 0;
-let treeX = canvas.width / 2;
-let shiftDone = false;
+  const x = Math.random()*260 - 130;
+  const y = Math.random()*260 - 180;
 
-// ---- HEART DRAW ----
-function heart(x, y, size, color) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.bezierCurveTo(x - size, y - size, x - size * 2, y + size / 2, x, y + size * 1.5);
-    ctx.bezierCurveTo(x + size * 2, y + size / 2, x + size, y - size, x, y);
-    ctx.fill();
-}
+  heart.style.left = `calc(50% + ${x}px)`;
+  heart.style.bottom = `calc(35% + ${y}px)`;
+  heart.style.animationDelay = `${Math.random()*4}s`;
 
-// ---- DRAW TREE ----
-function drawTree(progress) {
-
-    // trunk
-    ctx.strokeStyle = "#ff9acb";
-    ctx.lineWidth = 10;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(treeX, ground);
-    ctx.lineTo(treeX, ground - progress * 260);
-    ctx.stroke();
-
-    // heart leaves
-    const heartCount = Math.floor(progress * 220);
-    for (let i = 0; i < heartCount; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.random() * 150;
-        const x = treeX + Math.cos(angle) * radius;
-        const y = ground - 200 + Math.sin(angle) * radius;
-
-        const colors = ["#ff5d8f", "#ff9acb", "#ff2d55"];
-        heart(x, y, 6, colors[Math.floor(Math.random() * colors.length)]);
-    }
-}
-
-// ---- MAIN ANIMATION ----
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (ballY < ground) {
-        ballY += 7;
-        ctx.beginPath();
-        ctx.arc(ballX, ballY, 12, 0, Math.PI * 2);
-        ctx.fillStyle = "#ff9acb";
-        ctx.fill();
-
-    } else if (grow < 1) {
-        grow += 0.012;
-        drawTree(grow);
-
-    } else if (!shiftDone) {
-        treeX += 2;
-        drawTree(1);
-        if (treeX > canvas.width * 0.65) {
-            shiftDone = true;
-            startTyping();
-        }
-
-    } else {
-        drawTree(1);
-    }
-
-    requestAnimationFrame(animate);
-}
-animate();
-
-// ---- TYPEWRITER ----
-const message = `Hey you 💗
-Happy Birthday Betuu 🩷😘
-May God bless you
-And give u many happiness 💕
-
-Just saying… you're pretty awesome 💖
-Sending good vibes ✨
-Hope u have a beautiful day 🌸`;
-
-let i = 0;
-const typed = document.getElementById("typed");
-const box = document.getElementById("textBox");
-
-function startTyping() {
-    box.style.opacity = 1;
-    const t = setInterval(() => {
-        typed.innerHTML += message[i];
-        i++;
-        if (i >= message.length) clearInterval(t);
-    }, 45);
+  tree.appendChild(heart);
 }
 </script>
 
