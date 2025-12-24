@@ -2,148 +2,163 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday</title>
+<title>Happy Birthday Betuu</title>
+
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-    }
+html, body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
 
-    body {
-        background: black;
-        overflow: hidden;
-    }
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 
-    canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
+.text-box {
+    position: absolute;
+    left: 5%;
+    top: 30%;
+    width: 38%;
+    color: white;
+    font-size: 17px;
+    line-height: 1.7;
+    opacity: 0;
+}
 
-    .text-box {
-        position: absolute;
-        left: 6%;
-        top: 35%;
-        width: 35%;
-        color: #fff;
-        font-size: 18px;
-        line-height: 1.7;
-        opacity: 0;
-    }
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 18px;
+    background: white;
+    animation: blink 1s infinite;
+}
 
-    .cursor {
-        display: inline-block;
-        width: 2px;
-        height: 18px;
-        background: white;
-        animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
+@keyframes blink {
+    50% { opacity: 0; }
+}
 </style>
 </head>
+
 <body>
 
 <canvas id="canvas"></canvas>
 
 <div class="text-box" id="textBox">
-    <span id="typedText"></span><span class="cursor"></span>
+    <span id="typed"></span><span class="cursor"></span>
 </div>
 
 <script>
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
-let ballY = -50;
-let ground = canvas.height * 0.75;
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.onresize = resize;
+
+// ---- BALL ----
+let ballY = -40;
+let ballX = canvas.width / 2;
+const ground = canvas.height * 0.78;
+
+// ---- TREE ----
+let grow = 0;
 let treeX = canvas.width / 2;
-let shiftTree = false;
+let shiftDone = false;
 
-function drawBall() {
+// ---- HEART DRAW ----
+function heart(x, y, size, color) {
+    ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.arc(treeX, ballY, 14, 0, Math.PI * 2);
-    ctx.fillStyle = "#ff9acb";
+    ctx.moveTo(x, y);
+    ctx.bezierCurveTo(x - size, y - size, x - size * 2, y + size / 2, x, y + size * 1.5);
+    ctx.bezierCurveTo(x + size * 2, y + size / 2, x + size, y - size, x, y);
     ctx.fill();
 }
 
+// ---- DRAW TREE ----
 function drawTree(progress) {
-    ctx.strokeStyle = "#ff9acb";
-    ctx.lineWidth = 8;
-    ctx.lineCap = "round";
 
     // trunk
+    ctx.strokeStyle = "#ff9acb";
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
     ctx.beginPath();
     ctx.moveTo(treeX, ground);
-    ctx.lineTo(treeX, ground - progress * 120);
+    ctx.lineTo(treeX, ground - progress * 260);
     ctx.stroke();
 
-    // branches
-    for (let i = 0; i < progress * 25; i++) {
-        let angle = Math.random() * Math.PI * 2;
-        let length = Math.random() * 18;
-        let x = treeX + Math.cos(angle) * length;
-        let y = ground - 100 + Math.sin(angle) * length;
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fill();
+    // heart leaves
+    const heartCount = Math.floor(progress * 220);
+    for (let i = 0; i < heartCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.random() * 150;
+        const x = treeX + Math.cos(angle) * radius;
+        const y = ground - 200 + Math.sin(angle) * radius;
+
+        const colors = ["#ff5d8f", "#ff9acb", "#ff2d55"];
+        heart(x, y, 6, colors[Math.floor(Math.random() * colors.length)]);
     }
 }
 
-let treeGrow = 0;
-
+// ---- MAIN ANIMATION ----
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (ballY < ground) {
-        ballY += 6;
-        drawBall();
-    } else if (treeGrow < 1) {
-        treeGrow += 0.015;
-        drawTree(treeGrow);
-    } else if (!shiftTree) {
+        ballY += 7;
+        ctx.beginPath();
+        ctx.arc(ballX, ballY, 12, 0, Math.PI * 2);
+        ctx.fillStyle = "#ff9acb";
+        ctx.fill();
+
+    } else if (grow < 1) {
+        grow += 0.012;
+        drawTree(grow);
+
+    } else if (!shiftDone) {
         treeX += 2;
+        drawTree(1);
         if (treeX > canvas.width * 0.65) {
-            shiftTree = true;
+            shiftDone = true;
             startTyping();
         }
-        drawTree(1);
+
     } else {
         drawTree(1);
     }
 
     requestAnimationFrame(animate);
 }
-
 animate();
 
-/* TYPEWRITER TEXT */
-const message = `
-Hey you 💗
-Happy Birthday 🎉
+// ---- TYPEWRITER ----
+const message = `Hey you 💗
+Happy Birthday Betuu 🩷😘
 May God bless you
-And give u many happiness 💖
+And give u many happiness 💕
 
-Just saying… you're pretty awesome 💕
+Just saying… you're pretty awesome 💖
 Sending good vibes ✨
-Hope u have a beautiful day 🌸
-`;
+Hope u have a beautiful day 🌸`;
 
-let index = 0;
-const textBox = document.getElementById("textBox");
-const typedText = document.getElementById("typedText");
+let i = 0;
+const typed = document.getElementById("typed");
+const box = document.getElementById("textBox");
 
 function startTyping() {
-    textBox.style.opacity = 1;
-    const typing = setInterval(() => {
-        typedText.innerHTML += message[index];
-        index++;
-        if (index >= message.length) clearInterval(typing);
+    box.style.opacity = 1;
+    const t = setInterval(() => {
+        typed.innerHTML += message[i];
+        i++;
+        if (i >= message.length) clearInterval(t);
     }, 45);
 }
 </script>
