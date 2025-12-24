@@ -16,19 +16,16 @@ body {
 }
 .container {
   text-align:center;
-  background: rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.1);
   padding:40px;
   border-radius:20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   position: relative;
-  z-index:1;
 }
 h1 {
   font-size:2.5em;
-  background: linear-gradient(45deg, #ff6b81, #f9d423, #6a11cb, #ff4d6d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color:white;
   margin-bottom:20px;
 }
 button {
@@ -39,29 +36,19 @@ button {
   background:#ff4d6d;
   color:white;
   cursor:pointer;
-  transition: transform 0.8s ease-in-out;
-  z-index:2;
-  position:relative;
 }
-button:active { transform: scale(0.95); }
 .message {
   display:none;
   margin-top:20px;
   font-size:20px;
   line-height:1.6;
-  color:#ffdde1; /* soft pastel */
-  animation: fadeIn 2s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(20px);}
-  to { opacity:1; transform:translateY(0);}
+  color:white;
 }
 .heart {
   position:absolute;
   color:red;
   font-size:20px;
   animation: floatUp 5s linear forwards;
-  z-index:0;
 }
 @keyframes floatUp {
   0% { bottom:-20px; opacity:1; transform:translateX(0);}
@@ -100,10 +87,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Show message
     msg.style.display = "block";
 
-    // Button drops down + rotates + disables
-    btn.style.transform = "translateY(200px) rotate(45deg)";
-    btn.disabled = true;
+    // Change button text
     btn.innerText = "Opened 🎉";
+    btn.disabled = true;
 
     // Generate 50+ hearts with random positions, sizes, speeds
     for(let i=0; i<50; i++){
