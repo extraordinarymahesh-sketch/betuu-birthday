@@ -5,191 +5,104 @@
 <title>For My Betuu ❤️</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:black;
-  overflow:hidden;
-  font-family:'Segoe UI',sans-serif;
-  color:white;
-}
-
-.center{
-  position:absolute;
-  inset:0;
+body {
+  margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  height:100vh;
+  overflow:hidden;
 }
-button{
-  margin-top:20px;
-  padding:14px 32px;
+.container {
+  text-align:center;
+  background:rgba(255,255,255,0.2);
+  padding:40px;
+  border-radius:20px;
+  backdrop-filter:blur(10px);
+}
+h1,h2,p { color:#fff; }
+
+button {
+  padding:15px 30px;
+  font-size:18px;
   border:none;
   border-radius:30px;
   background:#ff4d6d;
   color:white;
-  font-size:18px;
   cursor:pointer;
 }
+button:active { transform:scale(0.95); }
 
-.ball{
-  position:absolute;
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-weight:600;
-  top:-150px;
-  animation:fall 1.6s cubic-bezier(.2,.8,.2,1) forwards;
-}
+.message { display:none; margin-top:20px; }
 
-@keyframes fall{
-  to{ transform:translateY(55vh); }
-}
-
-.merge{
-  animation:merge 1.2s ease forwards;
-}
-@keyframes merge{
-  to{ transform:translate(40vw,55vh) scale(0); opacity:0 }
-}
-
-/* TREE */
-.tree{
-  position:absolute;
-  right:-350px;
-  bottom:0;
-  width:280px;
-  height:450px;
-  opacity:0;
-  animation:treeIn 2s ease forwards;
-}
-@keyframes treeIn{
-  to{ right:40px; opacity:1 }
-}
-.stem{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  width:38px;
-  height:280px;
-  background:pink;
-  transform:translateX(-50%);
-}
-.crown{
-  position:absolute;
-  top:0;
-  left:50%;
-  width:220px;
-  height:220px;
-  background:radial-gradient(#ff9aa2,#ff4d6d);
-  border-radius:50%;
-  transform:translateX(-50%);
-}
-.heart{
-  position:absolute;
-  font-size:16px;
-}
-
-/* TEXT */
-.textBox{
-  position:absolute;
-  top:90px;
-  left:-420px;
-  width:42%;
-  animation:textSlide 2s ease forwards;
-}
-@keyframes textSlide{
-  to{ left:40px }
-}
-.line{
-  margin-bottom:10px;
+.typing {
   overflow:hidden;
   white-space:nowrap;
   border-right:2px solid white;
   width:0;
-  animation:typing 3s steps(40,end) forwards;
+  margin:8px auto;
+  animation: typing 3s steps(40,end) forwards;
 }
-@keyframes typing{
-  to{ width:100% }
+
+@keyframes typing {
+  to { width:100%; }
+}
+
+.heart {
+  position:absolute;
+  color:red;
+  font-size:20px;
+  animation:floatUp 5s linear infinite;
+}
+@keyframes floatUp {
+  0% { bottom:-20px; opacity:1; }
+  100% { bottom:100%; opacity:0; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="center" id="start">
-  <h2>Betuu click on this button ❤️</h2>
-  <button onclick="start()">Click Here</button>
+<div class="container">
+  <h1>🎁 A Special Gift for My Betuu 🎁</h1>
+  <button id="giftBtn">Open Your Gift ❤️</button>
+
+  <div class="message" id="msg">
+    <!-- NO animation on this heading -->
+    <h2>Happy Birthday My Betuuu 🎂💖</h2>
+
+    <!-- Typing animation texts -->
+    <p class="typing" style="animation-delay:0s">Oyyy sun</p>
+    <p class="typing" style="animation-delay:3s">Happy Birthday my betuuu 🩷</p>
+    <p class="typing" style="animation-delay:6s">May God blessed you</p>
+    <p class="typing" style="animation-delay:9s">Nothing else worked out except uss 🩷😘</p>
+    <p class="typing" style="animation-delay:12s">
+      You are the best gift of God that I recieved this year
+    </p>
+  </div>
 </div>
 
 <script>
-function start(){
-  start.style.display="none";
+const btn = document.getElementById("giftBtn");
+const msg = document.getElementById("msg");
 
-  const names=[
-    "Doritos","Gadhuu","Budhhu ki Guddu",
-    "Chirkut","Bhot Bolti Ho","Betuuu","Kanishka Ji"
-  ];
-  const colors=["#ff7675","#74b9ff","#55efc4","#ffeaa7","#fd79a8","#a29bfe","#fab1a0"];
+btn.addEventListener("click", () => {
+  msg.style.display = "block";
+  btn.disabled = true;
+  btn.innerText = "Opened 🎉";
 
-  let balls=[];
-  names.forEach((n,i)=>{
-    let b=document.createElement("div");
-    b.className="ball";
-    b.style.left=(8+i*12)+"%";
-    b.style.background=colors[i];
-    b.style.animationDelay=i*0.15+"s";
-    b.innerHTML=n;
-    document.body.appendChild(b);
-    balls.push(b);
-  });
-
-  setTimeout(()=>{
-    balls.forEach(b=>b.classList.add("merge"));
-  },2600);
-
-  setTimeout(showTree,4200);
-}
-
-function showTree(){
-  document.querySelectorAll(".ball").forEach(b=>b.remove());
-
-  let tree=document.createElement("div");
-  tree.className="tree";
-  tree.innerHTML=`<div class="crown"></div><div class="stem"></div>`;
-  document.body.appendChild(tree);
-
-  for(let i=0;i<120;i++){
-    let h=document.createElement("div");
+  for(let i=0;i<30;i++){
+    const h=document.createElement("div");
     h.className="heart";
-    h.innerHTML=Math.random()>0.5?"❤️":"💗";
-    h.style.left=Math.random()*220+"px";
-    h.style.top=Math.random()*200+"px";
-    tree.appendChild(h);
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*20+10)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>{h.remove();},5000);
   }
-
-  setTimeout(showText,1800);
-}
-
-function showText(){
-  let t=document.createElement("div");
-  t.className="textBox";
-  t.innerHTML=`
-    <div class="line">oyyyyyyyy sun</div>
-    <div class="line" style="animation-delay:.4s">Happy Birthday my betuu 🩷😘</div>
-    <div class="line" style="animation-delay:.8s">may God bless you 😘</div>
-    <div class="line" style="animation-delay:1.2s">and give you many happiness 💗</div>
-    <div class="line" style="animation-delay:1.6s">I am truly lucky to have you 💗</div>
-    <div class="line" style="animation-delay:2s">you are the best part of my life 💗</div>
-    <div class="line" style="animation-delay:2.4s">you are the best gift of God I received this year 💗</div>
-    <div class="line" style="animation-delay:2.8s">that's why this year is so much precious for me 💗</div>
-  `;
-  document.body.appendChild(t);
-}
+});
 </script>
 
 </body>
