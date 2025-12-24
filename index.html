@@ -67,16 +67,8 @@
     }
 
     @keyframes floatUp {
-        0% {
-            bottom: -20px;
-            opacity: 1;
-            transform: translateX(0);
-        }
-        100% {
-            bottom: 100%;
-            opacity: 0;
-            transform: translateX(100px);
-        }
+        0% { bottom: -20px; opacity: 1; transform: translateX(0); }
+        100% { bottom: 100%; opacity: 0; transform: translateX(100px); }
     }
 </style>
 </head>
@@ -84,7 +76,7 @@
 
 <div class="container">
     <h1>🎁 A Special Gift for My Betuu 🎁</h1>
-    <button onclick="openGift()">Open Your Gift ❤️</button>
+    <button id="giftBtn">Open Your Gift ❤️</button>
 
     <div class="message" id="msg">
         <h2>Happy Birthday My Betuuu 🎂💖</h2>
@@ -104,21 +96,35 @@
 </div>
 
 <script>
-function openGift() {
-    document.getElementById("msg").style.display = "block";
-    for (let i = 0; i < 30; i++) {
-        createHeart();
-    }
-}
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("giftBtn");
+    const msg = document.getElementById("msg");
 
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
-    document.body.appendChild(heart);
+    btn.addEventListener("click", function() {
+        // Show message
+        msg.style.display = "block";
 
-    setTimeout(() => {
-        heart.remove();
-    },
+        // Generate hearts
+        for (let i = 0; i < 30; i++) {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Disable button after click
+        btn.disabled = true;
+        btn.style.opacity = 0.6;
+        btn.innerText = "Opened 🎉";
+    });
+});
+</script>
+
+</body>
+</html>
