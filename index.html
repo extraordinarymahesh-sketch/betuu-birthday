@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Betuu ❤️</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        background: #ff4d6d;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+        background: #ff1e4d;
+    }
+
+    .message {
+        display: none;
+        color: #fff;
+        margin-top: 20px;
+        font-size: 20px;
+        line-height: 1.6;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .heart {
+        position: absolute;
+        color: red;
+        font-size: 20px;
+        animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+        0% {
+            bottom: -20px;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        100% {
+            bottom: 100%;
+            opacity: 0;
+            transform: translateX(100px);
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎁 A Special Gift for My Betuu 🎁</h1>
+    <button onclick="openGift()">Open Your Gift ❤️</button>
+
+    <div class="message" id="msg">
+        <h2>Happy Birthday My Betuuu 🎂💖</h2>
+        <p>
+            You are the most beautiful and best person  
+            that I received in this year ✨🥹  
+            <br><br>
+            I am truly lucky to have you in my life 💫  
+            You make my days brighter,  
+            my heart lighter and my smile real 😍  
+            <br><br>
+            Stay the same cute, playful and magical Betuu 💕  
+            <br>
+            <strong>Nothing else worked out… except us ❤️</strong>
+        </p>
+    </div>
+</div>
+
+<script>
+function openGift() {
+    document.getElementById("msg").style.display = "block";
+    for (let i = 0; i < 30; i++) {
+        createHeart();
+    }
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    },
