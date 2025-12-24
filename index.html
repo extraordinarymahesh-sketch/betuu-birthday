@@ -16,14 +16,20 @@ body {
 }
 .container {
   text-align:center;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15);
   padding:40px;
   border-radius:20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   position: relative;
 }
-h1 { color: #fff; margin-bottom:20px; }
+h1 {
+  font-size:2.5em;
+  background: linear-gradient(45deg, #ff6b81, #f9d423, #6a11cb, #ff4d6d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom:20px;
+}
 button {
   padding:15px 30px;
   font-size:18px;
@@ -32,20 +38,20 @@ button {
   background:#ff4d6d;
   color:white;
   cursor:pointer;
-  transition:0.3s, transform 0.5s;
+  transition: transform 0.8s ease-in-out;
 }
 button:active { transform: scale(0.95); }
 .message {
   display:none;
-  color:#fff;
   margin-top:20px;
   font-size:20px;
   line-height:1.6;
+  color:#ffe4e1; /* soft pastel color */
   animation: fadeIn 2s ease-in-out;
 }
 @keyframes fadeIn {
-  from { opacity:0; transform:translateY(20px); }
-  to { opacity:1; transform:translateY(0); }
+  from { opacity:0; transform:translateY(20px);}
+  to { opacity:1; transform:translateY(0);}
 }
 .heart {
   position:absolute;
@@ -54,19 +60,18 @@ button:active { transform: scale(0.95); }
   animation: floatUp 5s linear forwards;
 }
 @keyframes floatUp {
-  0% { bottom:-20px; opacity:1; transform:translateX(0); }
-  100% { bottom:100%; opacity:0; transform:translateX(100px); }
+  0% { bottom:-20px; opacity:1; transform:translateX(0);}
+  100% { bottom:100%; opacity:0; transform:translateX(100px);}
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>🎁 A Special Gift for My Betuu 🎁</h1>
+<h1>Happy Birthday My Betuuu 🎂💖</h1>
 <button id="giftBtn">Open Your Gift ❤️</button>
 
 <div class="message" id="msg">
-<h2>Happy Birthday My Betuuu 🎂💖</h2>
 <p>
 You are the most beautiful and best person that I received this year ✨🥹<br>
 I am lucky to have you 💫<br>
@@ -91,21 +96,21 @@ document.addEventListener("DOMContentLoaded", function() {
     // Show message
     msg.style.display = "block";
 
-    // Button drops down + disables
-    btn.style.transform = "translateY(100px) rotate(15deg)";
+    // Button drops down + rotates + disables
+    btn.style.transform = "translateY(200px) rotate(45deg)";
     btn.disabled = true;
     btn.innerText = "Opened 🎉";
 
     // Generate 50+ hearts with random positions, sizes, speeds
     for(let i=0; i<50; i++){
       const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "❤️";
+      heart.className="heart";
+      heart.innerHTML="❤️";
       heart.style.left = Math.random()*100 + "vw";
-      heart.style.fontSize = (Math.random()*30 + 15) + "px";
-      heart.style.animationDuration = (Math.random()*3 + 4) + "s";
+      heart.style.fontSize = (Math.random()*30+15) + "px";
+      heart.style.animationDuration = (Math.random()*3+4) + "s";
       document.body.appendChild(heart);
-      setTimeout(()=>{ heart.remove(); }, 6000);
+      setTimeout(()=>{heart.remove();},6000);
     }
   });
 });
