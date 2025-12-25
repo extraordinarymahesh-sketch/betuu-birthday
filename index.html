@@ -2,133 +2,153 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Betuu</title>
+<title>Her Birthday 💖</title>
 
 <style>
 body{
   margin:0;
   background:black;
-  height:100vh;
   overflow:hidden;
-  font-family:Poppins, sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
-/* falling heart */
-#fallHeart{
+/* ---------- TEXT ---------- */
+
+.top-text{
   position:absolute;
-  top:-80px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:70px;
-  animation:fall 2.6s ease forwards;
-}
-@keyframes fall{ to{ top:75%; } }
-
-/* layout */
-.main{
-  display:none;
-  height:100%;
+  top:30px;
   width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 5%;
+  text-align:center;
+  color:orange;
+  font-size:34px;
+  letter-spacing:2px;
 }
 
-/* text */
-.text{
-  width:34%;
+.side-text{
+  position:absolute;
+  left:20px;
+  top:42%;
   color:white;
-  font-size:16px;
-  line-height:1.9;
-}
-.line{
-  opacity:0;
-  white-space:pre-wrap; /* 🔥 FIX SPACE ISSUE */
+  font-size:15px;
+  line-height:1.8;
 }
 
-/* tree */
-.tree{
-  width:60%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.bottom-text{
+  position:absolute;
+  bottom:40px;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:26px;
+  letter-spacing:1.5px;
+}
+
+/* ---------- TYPEWRITER ---------- */
+.type span{
+  opacity:0;
+  animation: typeIn 0.5s forwards;
+}
+
+@keyframes typeIn{
+  to{ opacity:1 }
+}
+
+/* ---------- HEART PULSE ---------- */
+.heart-group{
+  animation: pulse 2.5s ease-in-out infinite;
+  transform-origin:center;
+}
+
+@keyframes pulse{
+  0%{ transform:scale(1); filter:drop-shadow(0 0 0px pink); }
+  50%{ transform:scale(1.03); filter:drop-shadow(0 0 12px #ff7eb9); }
+  100%{ transform:scale(1); filter:drop-shadow(0 0 0px pink); }
 }
 </style>
 </head>
 
 <body>
 
-<div id="fallHeart">💗</div>
-
-<div class="main" id="main">
-
-  <!-- TEXT -->
-  <div class="text">
-    <div class="line">Oyyyyyyy sun 💕</div>
-    <div class="line">Happy Birthday Betuu 🩷😘</div>
-    <div class="line">May God bless you 💖</div>
-    <div class="line">Nothing else worked out except us 🩷</div>
-    <div class="line">You are the best gift of God</div>
-    <div class="line">That I received this year 💞</div>
-  </div>
-
-  <!-- REAL TREE SVG -->
-  <div class="tree">
-    <svg width="420" height="520" viewBox="0 0 420 520">
-      <!-- trunk -->
-      <path d="M205 520 
-               C190 400,190 320,200 250
-               C210 180,220 120,210 40
-               C230 120,240 180,250 250
-               C260 320,260 400,245 520 Z"
-            fill="#ff8fcf"/>
-
-      <!-- heart leaves -->
-      <g font-size="14">
-        <script type="application/ecmascript"><![CDATA[
-          const colors=["#ff4d6d","#ff85c1","#ffb3d9"];
-          for(let i=0;i<900;i++){
-            let x=Math.random()*240+90;
-            let y=Math.random()*200+20;
-            let c=colors[Math.floor(Math.random()*colors.length)];
-            document.write(`<text x="${x}" y="${y}" fill="${c}">❤</text>`);
-          }
-        ]]></script>
-      </g>
-    </svg>
-  </div>
-
+<!-- HEADING (NO ANIMATION) -->
+<div class="top-text">
+  Pov : it's her birthday 💖🥳
 </div>
 
+<!-- LEFT TEXT -->
+<div class="side-text type" id="leftText"></div>
+
+<!-- BOTTOM TEXT -->
+<div class="bottom-text type" id="bottomText"></div>
+
+<!-- ---------- TREE SVG ---------- -->
+<svg width="100%" height="100%" viewBox="0 0 400 600"
+xmlns="http://www.w3.org/2000/svg">
+
+<!-- STEM -->
+<path d="
+M190 580
+C160 460,170 340,190 280
+C196 250,204 250,210 280
+C230 340,240 460,210 580
+Z" fill="#ff9fcf"/>
+
+<!-- HEART SHAPE -->
+<defs>
+<clipPath id="heart">
+<path d="
+M200 160
+C120 80, 20 170, 200 330
+C380 170, 280 80, 200 160 Z"/>
+</clipPath>
+</defs>
+
+<g clip-path="url(#heart)" class="heart-group" id="heartTree"></g>
+
+</svg>
+
 <script>
-const heart=document.getElementById("fallHeart");
-const main=document.getElementById("main");
-const lines=document.querySelectorAll(".line");
+/* ---------- HEART LEAVES ---------- */
+const heartTree = document.getElementById("heartTree");
+const colors = ["#ff6fae","#ff9fcf","#ffc0cb","#ff5c8a","#ffd1dc"];
 
-setTimeout(()=>{
-  heart.style.display="none";
-  main.style.display="flex";
+for(let i=0;i<350;i++){
+  let h = document.createElementNS("http://www.w3.org/2000/svg","path");
+  let x = 80 + Math.random()*240;
+  let y = 90 + Math.random()*250;
+  let c = colors[Math.floor(Math.random()*colors.length)];
+  h.setAttribute("d",
+   `M ${x} ${y}
+    c -6 -6 -18 -1 0 12
+    c 18 -13 6 -18 0 -12 z`);
+  h.setAttribute("fill",c);
+  heartTree.appendChild(h);
+}
 
-  let delay=0;
-  lines.forEach(line=>{
-    const text=line.innerText;
-    line.innerText="";
-    setTimeout(()=>{
-      line.style.opacity=1;
-      let i=0;
-      const type=setInterval(()=>{
-        line.innerText+=text[i]; // 🔥 spaces included
-        i++;
-        if(i>=text.length) clearInterval(type);
-      },55);
-    },delay);
-    delay+=1700;
-  });
+/* ---------- TYPEWRITER FUNCTION ---------- */
+function typeText(el, text, delay){
+  let i=0;
+  let interval = setInterval(()=>{
+    if(i < text.length){
+      let span = document.createElement("span");
+      span.textContent = text[i]==="\n" ? "\n" : text[i];
+      el.appendChild(span);
+      i++;
+    } else clearInterval(interval);
+  }, delay);
+}
 
-},2600);
+/* ---------- TEXT CONTENT ---------- */
+typeText(
+  document.getElementById("leftText"),
+  "Hey you 💗\nHappy Birthday 💞\nMay God bless you 💖\nAnd give u many happiness 💕\nJust saying... you're pretty 💓",
+  70
+);
+
+typeText(
+  document.getElementById("bottomText"),
+  "making sure she feels special ✨💖",
+  80
+);
 </script>
 
 </body>
