@@ -10,7 +10,7 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family:Poppins, sans-serif;
 }
 
 body{
@@ -19,43 +19,60 @@ body{
   overflow:hidden;
 }
 
-/* Layout */
+/* falling heart */
+#fallHeart{
+  position:absolute;
+  top:-80px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:60px;
+  color:#ff69b4;
+  animation:fall 2.5s ease-in forwards;
+}
+
+@keyframes fall{
+  to{ top:75%; }
+}
+
+/* layout after tree */
 .container{
+  display:none;
   height:100%;
+  width:100%;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 6%;
 }
 
-/* Text */
+/* text */
 .text{
-  width:32%;
+  width:30%;
   color:white;
   font-size:15px;
   line-height:1.8;
 }
 
-/* Tree area */
+/* tree */
 .tree{
-  width:68%;
+  width:70%;
   height:100%;
   position:relative;
 }
 
-/* Trunk */
+/* trunk (moti & real) */
 .trunk{
   position:absolute;
-  bottom:6%;
+  bottom:5%;
   left:50%;
   transform:translateX(-50%);
-  width:16px;
+  width:34px;
   height:55%;
-  background:#ffb3d9;
-  border-radius:12px;
+  background:linear-gradient(#ffb3d9,#ff7eb3);
+  border-radius:20px;
 }
 
-/* Heart leaves */
+/* leaves */
 .leaf{
   position:absolute;
   font-size:18px;
@@ -65,18 +82,20 @@ body{
 
 <body>
 
-<div class="container">
+<!-- Falling Heart -->
+<div id="fallHeart">💗</div>
 
-  <!-- TEXT -->
+<!-- Main Content -->
+<div class="container" id="main">
+  
   <div class="text">
     Hey you 💖<br>
-    Happy Birthday Betuu 💋<br>
+    Happy Birthday Betuu 🩷😘<br>
     May God bless you 💕<br>
     And give u many happiness 💖<br>
     Just saying… you're pretty awesome 💞
   </div>
 
-  <!-- TREE -->
   <div class="tree">
     <div class="trunk"></div>
   </div>
@@ -84,26 +103,32 @@ body{
 </div>
 
 <script>
+const heart = document.getElementById("fallHeart");
+const main = document.getElementById("main");
 const tree = document.querySelector(".tree");
 const hearts = ["💖","💗","💕","❤️","💞","💘"];
 
-/* Heart-shape math */
-for(let i=0;i<450;i++){
-  const h = document.createElement("div");
-  h.className = "leaf";
-  h.innerText = hearts[Math.floor(Math.random()*hearts.length)];
+/* after fall create tree */
+setTimeout(()=>{
+  heart.style.display="none";
+  main.style.display="flex";
 
-  let x, y;
-  do{
-    x = Math.random()*2 - 1;
-    y = Math.random()*2 - 1;
-  }while(Math.pow(x*x + y*y - 1,3) - x*x*y*y*y > 0);
+  for(let i=0;i<520;i++){
+    const h=document.createElement("div");
+    h.className="leaf";
+    h.innerText=hearts[Math.floor(Math.random()*hearts.length)];
 
-  h.style.left = `calc(50% + ${x*230}px)`;
-  h.style.bottom = `calc(55% + ${y*230}px)`;
+    let x,y;
+    do{
+      x=Math.random()*2-1;
+      y=Math.random()*2-1;
+    }while(Math.pow(x*x+y*y-1,3)-x*x*y*y*y>0);
 
-  tree.appendChild(h);
-}
+    h.style.left=`calc(50% + ${x*250}px)`;
+    h.style.bottom=`calc(55% + ${y*240}px)`;
+    tree.appendChild(h);
+  }
+},2600);
 </script>
 
 </body>
